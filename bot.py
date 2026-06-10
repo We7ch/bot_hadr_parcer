@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher, F, types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
+from aiogram.types import BotCommand, KeyboardButton, ReplyKeyboardMarkup
 from dotenv import load_dotenv
 
 import database as db
@@ -57,6 +57,17 @@ def main_menu_text() -> str:
 
 async def init_bot() -> Bot:
     return Bot(token=BOT_TOKEN)
+
+
+async def setup_bot_commands(bot: Bot) -> None:
+    await bot.set_my_commands(
+        [
+            BotCommand(command="start", description="Начать"),
+            BotCommand(command="habr", description="Найти вакансии"),
+            BotCommand(command="candidates", description="Найти кандидатов"),
+            BotCommand(command="help", description="Помощь"),
+        ]
+    )
 
 
 dp = Dispatcher()
@@ -269,6 +280,7 @@ async def main():
     )
 
     bot = await init_bot()
+    await setup_bot_commands(bot)
 
     logging.info("Запуск бота...")
     try:

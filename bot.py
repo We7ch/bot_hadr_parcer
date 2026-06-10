@@ -3,7 +3,6 @@ import logging
 import os
 
 from aiogram import Bot, Dispatcher, F, types
-from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -56,9 +55,8 @@ def main_menu_text() -> str:
     )
 
 
-async def init_bot_with_proxy() -> Bot:
-    session = AiohttpSession(proxy="http://127.0.0.1:10801")
-    return Bot(token=BOT_TOKEN, session=session)
+async def init_bot() -> Bot:
+    return Bot(token=BOT_TOKEN)
 
 
 dp = Dispatcher()
@@ -270,7 +268,7 @@ async def main():
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
 
-    bot = await init_bot_with_proxy()
+    bot = await init_bot()
 
     logging.info("Запуск бота...")
     try:
